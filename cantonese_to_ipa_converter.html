@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-145862581-1"></script>
+<script>
+if (typeof dataLayer == "undefined") dataLayer = [];
+function gtag() {dataLayer.push(arguments);}
+gtag("js", new Date());
+gtag("config", "UA-145862581-1");
+</script>
+<meta charset="UTF-8" />
+<title>Cantonese to IPA Converter</title>
+<link rel="stylesheet" href="converters.css" />
+<script src="cantonese_to_ipa_converter.js"></script>
+<style>
+#target {
+	font-family: "微軟正黑體", "Microsoft JhengHei", "微软雅黑", "Microsoft YaHei", "Arial", "HelveticaNeue-Light", "Helvetica Neue Light", "HelveticaNeue", "Helvetica Neue", "Helvetica", sans-serif;
+	line-height: 140%;
+	color: black;
+	font-weight: 100;
+}
+#target span {
+	color: silver;
+	padding: 0 3px;
+}
+</style>
+</head>
+<body>
+<div id="container">
+	<h1>Cantonese to IPA Converter</h1>
+	<div id="options">
+		<h2 id="options-title">Options</h2>
+		<div><input type="checkbox" id="jAsZ" /><label for="jAsZ">jAsZ</label></div>
+		<div><input type="checkbox" id="toneAsSuffix" /><label for="toneAsSuffix">toneAsSuffix</label>
+			<div class="false-only"><input type="checkbox" id="tone1ExtraHigh" /><label for="tone1ExtraHigh">tone1ExtraHigh</label></div>
+			<div class="true-only"><input type="checkbox" id="useToneLetter" checked /><label for="useToneLetter">useToneLetter</label>
+				<div class="false-only"><input type="checkbox" id="doubleToneNumerals" checked /><label for="doubleToneNumerals">doubleToneNumerals</label></div>
+			</div>
+		</div>
+		<div><input type="checkbox" id="tone1Fall" /><label for="tone1Fall">tone1Fall</label></div>
+		<div><input type="checkbox" id="tone4Fall" /><label for="tone4Fall">tone4Fall</label></div>
+	</div>
+	<div id="main">
+		<h2 id="origin-title">Cantonese</h2>
+		<textarea id="origin" spellcheck="false"></textarea>
+		<h2 id="target-title">IPA</h2>
+		<div id="target"></div>
+	</div>
+</div>
+<script>var Converter = CantoneseToIPA;</script>
+<script src="converters.js"></script>
+</body>
+</html>

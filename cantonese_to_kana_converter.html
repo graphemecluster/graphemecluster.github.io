@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-145862581-1"></script>
+<script>
+if (typeof dataLayer == "undefined") dataLayer = [];
+function gtag() {dataLayer.push(arguments);}
+gtag("js", new Date());
+gtag("config", "UA-145862581-1");
+</script>
+<meta charset="UTF-8" />
+<title>Cantonese to Kana Converter 広東語拼音→カタカナ変換</title>
+<link rel="stylesheet" href="converters.css" />
+<script src="cantonese_to_kana_converter.js"></script>
+</head>
+<body>
+<div id="container">
+	<h1>Cantonese to Kana Converter 広東語拼音→カタカナ変換</h1>
+	<div id="options">
+		<h2 id="options-title">Options オプション</h2>
+		<div><input type="checkbox" id="jAsZ" /><label for="jAsZ">jAsZ</label></div>
+		<div><input type="checkbox" id="voicedKanaAllowed" checked unsuggested /><label for="voicedKanaAllowed">voicedKanaAllowed</label></div>
+		<div><input type="checkbox" id="useHalfwidthKana" /><label for="useHalfwidthKana">useHalfwidthKana</label></div>
+		<div><input type="checkbox" id="replacementMode" checked /><label for="replacementMode">replacementMode</label>
+			<div class="false-only"><input type="checkbox" id="addSeperator" checked /><label for="addSeperator">addSeperator</label>
+				<div class="true-only"><input type="checkbox" id="useDot" /><label for="useDot">useDot</label></div>
+			</div>
+		</div>
+		<div><input type="checkbox" id="useShi" checked /><label for="useShi">useShi</label></div>
+		<div><input type="checkbox" id="useDoubleU" /><label for="useDoubleU">useDoubleU</label></div>
+		<div><input type="checkbox" id="withTone" /><label for="withTone">withTone</label>
+			<div class="true-only"><input type="checkbox" id="useSLWongTone" /><label for="useSLWongTone">useSLWongTone</label>
+				<div class="false-only"><input type="checkbox" id="useSuperscriptTone" checked /><label for="useSuperscriptTone">useSuperscriptTone</label></div>
+				<div class="false-only"><input type="checkbox" id="useCheckedTone" checked /><label for="useCheckedTone">useCheckedTone</label></div>
+			</div>
+		</div>
+		<div><input type="checkbox" id="ngAsZeroInitial" unsuggested /><label for="ngAsZeroInitial">ngAsZeroInitial</label>
+			<div class="false-only"><input type="checkbox" id="useBidakuon" checked unsuggested /><label for="useBidakuon">useBidakuon</label>
+				<div class="true-only"><input type="checkbox" id="autoLinkBidakuon" /><label for="autoLinkBidakuon">autoLinkBidakuon</label></div>
+				<div class="false-only"><input type="checkbox" id="subscriptBidakuonN" checked /><label for="subscriptBidakuonN">subscriptBidakuonN</label>
+					<div class="false-only"><input type="checkbox" id="useExtendedSmallBidakuonN" compatibility /><label for="useExtendedSmallBidakuonN">useExtendedSmallBidakuonN</label></div>
+				</div>
+			</div>
+		</div>
+		<div><input type="checkbox" id="useSmallKanaForNearClose" checked unsuggested /><label for="useSmallKanaForNearClose">useSmallKanaForNearClose</label></div>
+		<div><input type="checkbox" id="useSmallWa" checked /><label for="useSmallWa">useSmallWa</label>
+			<div class="true-only"><input type="checkbox" id="useNormalAndSmallWiWeWo" compatibility /><label for="useNormalAndSmallWiWeWo">useNormalAndSmallWiWeWo</label></div>
+		</div>
+		<div><input type="checkbox" id="useExtendedKana" checked unsuggested /><label for="useExtendedKana">useExtendedKana</label></div>
+		<div><input type="checkbox" id="distinguishK" /><label for="distinguishK">distinguishK</label></div>
+		<div><input type="checkbox" id="distinguishN" /><label for="distinguishN">distinguishN</label>
+			<div class="true-only"><input type="checkbox" id="useNuForN" /><label for="useNuForN">useNuForN</label>
+				<div class="false-only"><input type="checkbox" id="useExtendedSmallN" compatibility /><label for="useExtendedSmallN">useExtendedSmallN</label></div>
+			</div>
+		</div>
+		<div><input type="checkbox" id="useTsuForC" checked unsuggested /><label for="useTsuForC">useTsuForC</label>
+			<div class="true-only"><input type="checkbox" id="useAspiratedTsu" checked unsuggested /><label for="useAspiratedTsu">useAspiratedTsu</label></div>
+			<div class="true-only"><input type="checkbox" id="fullyUseTsuForC" /><label for="fullyUseTsuForC">fullyUseTsuForC</label></div>
+		</div>
+		<div><input type="checkbox" id="distinguishSyllabicM" checked /><label for="distinguishSyllabicM">distinguishSyllabicM</label></div>
+	</div>
+	<div id="main">
+		<h2 id="origin-title">Cantonese 広東語拼音</h2>
+		<textarea id="origin" spellcheck="false"></textarea>
+		<h2 id="target-title">Kana カタカナ</h2>
+		<div id="target"></div>
+	</div>
+</div>
+<script>var Converter = CantoneseToKana;</script>
+<script src="converters.js"></script>
+</body>
+</html>
