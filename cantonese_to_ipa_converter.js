@@ -2,7 +2,7 @@
 	(typeof exports == "object" ? exports : global).CantoneseToIPA = main();
 })(function() {
 	
-	var regex = /((ng|[kgqx](?:w|u(?![eiy]))?|dz|ts|[zcs]h?|[bpmfdtnlrhjyw])?(aa?|e[eou]?|o[eo]?|u[ue]?|yy(?![aeiouy])|yu?|ii?)([iuo](?!(?:ng|[mnptkbdg])(?![aeiouy]))|(?:ng|[mnptyw])(?![aeiou]|y(?![aeiouy]))|[bd](?![aeiouy])|[gk](?![aeiouw]|y(?![aeiouy])))?|(h)?(m|ng))([1-9²³¹⁴-⁹₁-₉])?/g;
+	var regex = /((ng|[hkgqx](?:w|u(?![eiy]))?|dz|ts|[zcs]h?|[bpmfdtnlrjyw])?(aa?|e[eou]?|o[eo]?|u[ue]?|yy(?![aeiouy])|yu?|ii?)([iuo](?!(?:ng|[mnptkbdg])(?![aeiouy]))|(?:ng|[mnptyw])(?![aeiou]|y(?![aeiouy]))|[bd](?![aeiouy])|[gk](?![aeiouw]|y(?![aeiouy])))?|(h)?(m|ng))([1-9²³¹⁴-⁹₁-₉])?/g;
 	
 	var lead = {
 		b: "p",
@@ -118,27 +118,30 @@
 			
 			output = [];
 			
-			line.toLowerCase().replace(regex, function(match, syllable, initial, nucleus, terminal, aspirated, syllabicConsonant, tone) {
+			line.toLowerCase().replace(regex, function(match, syllable, initial, nucleus, terminal, aspirated, syllabic, tone) {
 				
-					if (syllabicConsonant) output.push(finalize(null, tone, (aspirated ? "h" : "") + (syllabicConsonant == "m" ? "m̩-" : "ŋ̍-")));
+					if (syllabic) output.push(finalize(null, tone, (aspirated ? "h" : "") + (syllabic == "m" ? "m̩-" : "ŋ̍-")));
 					
 						 if (!initial && nucleus == "y") initial = "j";
 					else if (initial == "y" && nucleus == "u" && terminal != "ng" && terminal != "g" && terminal != "k") nucleus = "yu";
 					
 						 if (initial == "gu" || initial == "xw" || initial == "xu") initial = "gw";
 					else if (initial == "ku" || initial == "qw" || initial == "qu") initial = "kw";
+					else if (initial == "hw" || initial == "hu") initial = "f";
 					else if (initial == "dz" || initial == "zh" || CantoneseToIPA.jAsZ && initial == "j") initial = "z";
 					else if (initial == "ts" || initial == "ch" || initial == "q") initial = "c";
 					else if (initial == "sh" || initial == "x") initial = "s";
 					else if (initial == "r") initial = "l";
 					else if (initial == "y") initial = "j";
 					
-						 if (nucleus == "a" && (terminal == "o" || terminal == "y" || !terminal) || nucleus == "o" && terminal == "w") nucleus = "aa";
+						 if (nucleus == "a" && (terminal == "o" || terminal == "y" || !CantoneseToIPA.distinguishA && !terminal) || nucleus == "o" && terminal == "w") nucleus = "aa";
 					else if (nucleus == "ue" && (terminal == "i" || terminal == "y")) nucleus = "oe";
 					else if (!CantoneseToIPA.finalEuAsOe && nucleus == "eu" && !terminal) {nucleus = "e"; terminal = "u";}
 					else if ((nucleus == "u" || nucleus == "oo") && terminal == "o" || nucleus == "oo" && (terminal == "u" || terminal == "w")) nucleus = "o";
 					else if (nucleus == "ee" && (terminal == "i" || terminal == "y")) nucleus = "e";
 					else if ((nucleus == "u" || nucleus == "yu" || nucleus == "ue") && terminal == "u" || (nucleus == "i" || nucleus == "y") && (terminal == "i" || terminal == "y")) terminal = null;
+					
+					var oet = CantoneseToIPA.distinguishOet && nucleus == "oe" && terminal == "t";
 					
 						 if (nucleus == "eo" || nucleus == "eu") nucleus = "oe";
 					else if (nucleus == "y" || nucleus == "yy" || nucleus == "ue") nucleus = "yu";
@@ -156,7 +159,7 @@
 					else if (terminal == "d") terminal = "t";
 					else if (terminal == "g") terminal = "k";
 					
-					output.push(finalize(terminal, tone, (lead[initial] || "") + (exception[nucleus + terminal] || (vowel[nucleus] + (trail[terminal] || "")))));
+					output.push(finalize(terminal, tone, (lead[initial] || "") + (!oet && exception[nucleus + terminal] || (vowel[nucleus] + (trail[terminal] || "")))));
 					
 				}
 			);
@@ -178,6 +181,8 @@
 	CantoneseToIPA.useNonSyllabicSymbol			= false;
 	CantoneseToIPA.		putYSymbolBelow			= false;
 	CantoneseToIPA.finalEuAsOe					= false;
+	CantoneseToIPA.distinguishA					= false;
+	CantoneseToIPA.distinguishOet				= false;
 	CantoneseToIPA.useRoundedIForY				= false;
 	
 	return CantoneseToIPA;
