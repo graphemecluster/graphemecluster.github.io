@@ -19,7 +19,7 @@
 		"ᇀ": "ᆮ",
 		"ᇁ": "ᆸ",
 		"ᇂ": "ᆮ"
-	}
+	};
 	
 	var trailToLead = {
 		"ᆨ": "ᄀ",
@@ -37,7 +37,7 @@
 		"ᇀ": "ᄐ",
 		"ᇁ": "ᄑ",
 		"ᇂ": "ᄋ"
-	}
+	};
 	
 	var convertTrailBefore = {
 		"ᆪ": "ᆨ",
@@ -78,8 +78,8 @@
 		"ᆴ": true,
 		"ᆵ": false,
 		"ᆶ": true,
-		"ᆹ": true,
-	}
+		"ᆹ": true
+	};
 	
 	function HangulToPhonetic(hangul) {
 		
@@ -133,7 +133,7 @@
 								 if (isPalatal && prev.trail == "ᆮ") {curr.lead = "ᄎ"; moveCluster();}
 							// aspiration
 							else if (prev.trail == "ᆨ") {curr.lead = "ᄏ"; moveCluster();}
-							else if (prev.trail == "ᆮ" || prev.trail == "ᆺ" || prev.trail == "ᆻ") {curr.lead = "ᄐ"; moveCluster();}
+							else if (prev.trail == "ᇂ" || prev.trail == "ᆮ" || prev.trail == "ᆺ" || prev.trail == "ᆻ") {curr.lead = "ᄐ"; moveCluster();}
 							else if (prev.trail == "ᆸ") {curr.lead = "ᄑ"; moveCluster();}
 							else if (prev.trail == "ᆽ") {curr.lead = "ᄎ"; moveCluster();}
 							else if (HangulToPhonetic.hLenition) {
@@ -183,7 +183,7 @@
 								 if (isPalatal && prev.trail == "ᆮ") {curr.lead = "ᄎ"; delete prev.trail;}
 							// aspiration
 							else if (prev.trail == "ᆨ") {curr.lead = "ᄏ"; delete prev.trail;}
-							else if (prev.trail == "ᆮ" || prev.trail == "ᆺ" || prev.trail == "ᆻ") {curr.lead = "ᄐ"; delete prev.trail;}
+							else if (prev.trail == "ᇂ" || prev.trail == "ᆮ" || prev.trail == "ᆺ" || prev.trail == "ᆻ") {curr.lead = "ᄐ"; delete prev.trail;}
 							else if (prev.trail == "ᆸ") {curr.lead = "ᄑ"; delete prev.trail;}
 							else if (prev.trail == "ᆽ") {curr.lead = "ᄎ"; delete prev.trail;}
 							else if (HangulToPhonetic.hLenition) {

@@ -15,7 +15,7 @@
 		"ᄉ": ["サ", "シ", "ス", "セ", "ソ"],
 		"ᄊ": ["ッサ", "ッシ", "ッス", "ッセ", "ッソ"],
 		"ᄋ": ["ア", "イ", "ウ", "エ", "オ"],
-		"ᄌ": ["ジャ", "ジ", "ジュ", "ジェ", "ジョ"],
+		"ᄌ": null,
 		"ᄍ": ["ッチャ", "ッチ", "ッチュ", "ッチェ", "ッチョ"],
 		"ᄎ": ["チャ", "チ", "チュ", "チェ", "チョ"],
 		"ᄏ": ["カ", "キ", "ク", "ケ", "コ"],
@@ -46,8 +46,8 @@
 		"ᅲ": [1, "ュ"],
 		"ᅳ": [2, null],
 		"ᅴ": [2, null],
-		"ᅵ": [1, ""],
-	}
+		"ᅵ": [1, ""]
+	};
 	
 	var trail = {
 		"ᆨ": "ᆨ",
@@ -66,7 +66,7 @@
 		"ᇀ": "ᆮ",
 		"ᇁ": "ᆸ",
 		"ᇂ": "ᆮ"
-	}
+	};
 	
 	var trailType = {
 		"ᆷ": null,
@@ -76,7 +76,7 @@
 		"ᆮ": null,
 		"ᆨ": null,
 		"ᆯ": null
-	}
+	};
 	
 	var trailToLead = {
 		"ᆨ": "ᄀ",
@@ -95,7 +95,7 @@
 		"ᇀ": "ᄐ",
 		"ᇁ": "ᄑ",
 		"ᇂ": "ᄋ"
-	}
+	};
 	
 	var convertTrailBefore = {
 		"ᆪ": "ᆨ",
@@ -136,8 +136,8 @@
 		"ᆴ": true,
 		"ᆵ": false,
 		"ᆶ": true,
-		"ᆹ": true,
-	}
+		"ᆹ": true
+	};
 	
 	function extKana(ext, sub) {
 		return HangulToKana.useExtendedKana ? ext : "<sub>" + sub + "</sub>";
@@ -149,6 +149,8 @@
 			HangulToKana.autoLinkBidakuon
 				? ["<s>[[</s>カ゚<s>]]</s>", "<s>[[</s>キ゚<s>]]</s>", "<s>[[</s>ク゚<s>]]</s>", "<s>[[</s>ケ゚<s>]]</s>", "<s>[[</s>コ゚<s>]]</s>"]
 				: ["カ゚", "キ゚", "ク゚", "ケ゚", "コ゚"];
+		
+		lead["ᄌ"] = HangulToKana.useDyaForJa ? ["ヂャ", "ヂ", "ヂュ", "ヂェ", "ヂョ"] : ["ジャ", "ジ", "ジュ", "ジェ", "ジョ"];
 		
 		vowel["ᅧ"][1] = "ョ" + (vowel["ᅥ"][1] = HangulToKana.distinguishO ? "<b>͍</b>" : "");
 		vowel["ᅪ"][1] = HangulToKana.useSmallWa ? "ヮ" : "ァ";
@@ -228,7 +230,7 @@
 								 if (isPalatal && prev.trail == "ᆮ") {curr.lead = "ᄎ"; moveCluster();}
 							// aspiration
 							else if (prev.trail == "ᆨ") {curr.lead = "ᄏ"; moveCluster();}
-							else if (prev.trail == "ᆮ" || prev.trail == "ᆺ" || prev.trail == "ᆻ") {curr.lead = "ᄐ"; moveCluster();}
+							else if (prev.trail == "ᇂ" || prev.trail == "ᆮ" || prev.trail == "ᆺ" || prev.trail == "ᆻ") {curr.lead = "ᄐ"; moveCluster();}
 							else if (prev.trail == "ᆸ") {curr.lead = "ᄑ"; moveCluster();}
 							else if (prev.trail == "ᆽ") {curr.lead = "ᄎ"; moveCluster();}
 							else if (HangulToKana.hLenition) {
@@ -279,7 +281,7 @@
 								 if (isPalatal && prev.trail == "ᆮ") {curr.lead = "ᄎ"; delete prev.trail;}
 							// aspiration
 							else if (prev.trail == "ᆨ") {curr.lead = "ᄏ"; delete prev.trail;}
-							else if (prev.trail == "ᆮ" || prev.trail == "ᆺ" || prev.trail == "ᆻ") {curr.lead = "ᄐ"; delete prev.trail;}
+							else if (prev.trail == "ᇂ" || prev.trail == "ᆮ" || prev.trail == "ᆺ" || prev.trail == "ᆻ") {curr.lead = "ᄐ"; delete prev.trail;}
 							else if (prev.trail == "ᆸ") {curr.lead = "ᄑ"; delete prev.trail;}
 							else if (prev.trail == "ᆽ") {curr.lead = "ᄎ"; delete prev.trail;}
 							else if (HangulToKana.hLenition) {
@@ -339,7 +341,7 @@
 			
 			return "<span>" + syllables.map(function(item) {
 				return lead[item.lead][vowel[item.vowel][0]] + vowel[item.vowel][1] + (trailType[item.trail] || "");
-			}).join("").replace(/イャ/g, "ヤ").replace(/イュ/g, "ユ").replace(/イョ/g, "ヨ").replace(/ウ[ァヮ]/g, "ワ").replace(/ウ(<b>͍<\/b>)?𛅤/g,　"ヰ$1").replace(/ウ𛅥/g,　"ヱ").replace(/ウ𛅦/g,　"ヲ").replace(/(ッ(<b>͍<\/b>)?)ッ/g, "$1").replace(/(ㇷ゚|ㇳ|ㇰ|<sub>[プトク]<\/sub>)ッ/g, HangulToKana.removeRepeatFortis ? "$1" : "$&") + "</span>";
+			}).join("").replace(/イャ/g, "ヤ").replace(/イュ/g, "ユ").replace(/イョ/g, "ヨ").replace(/ウ[ァヮ]/g, "ワ").replace(/ウ(<b>͍<\/b>)?𛅤/g,　"ヰ$1").replace(/ウ𛅥/g,　"ヱ").replace(/ウ𛅦/g,　"ヲ").replace(/スィ/g, "シュィ").replace(/(ト|ド)ゥ([ァヮェィ])/g, HangulToKana.simplifyTwDwPlusFrontVowels ? "$1$2" : "$&").replace(/(ッ(<b>͍<\/b>)?)ッ/g, "$1").replace(/(ㇷ゚|ㇳ|ㇰ|<sub>[プトク]<\/sub>)ッ/g, HangulToKana.removeRepeatFortis ? "$1" : "$&") + "</span>";
 			
 		}).replace(/ /g, "　").replace(/\./g, "<i>。</i>").replace(/,/g, "<i>、</i>").replace(/\?/g, "<i>？</i>").replace(/!/g, "<i>！</i>").replace(/:/g, "<i>：</i>").replace(/;/g, "<i>；</i>").replace(/\(/g, "<i>（</i>").replace(/\)/g, "<i>）</i>").replace(/~/g, "<i>～</i>");
 	}
@@ -359,10 +361,12 @@
 	HangulToKana.ryeVowelAsE					= true;
 	HangulToKana.hLenition						= true;
 	HangulToKana.nInsertion						= false;
-	HangulToKana.ngNoSandhi						= false;
+	HangulToKana.ngNoSandhi						= true;
 	HangulToKana.	autoLinkBidakuon			= false;
 	HangulToKana.removeRepeatFortis				= true;
 	HangulToKana.useExtendedKana				= true;
+	HangulToKana.useDyaForJa					= false;
+	HangulToKana.simplifyTwDwPlusFrontVowels	= true;
 	
 	return HangulToKana;
 	

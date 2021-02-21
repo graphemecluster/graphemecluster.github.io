@@ -22,11 +22,11 @@
 	};
 	
 	var leadAllophone = {
-		"ᄉ": ["s", "ɕ", "s", "s"],
+		"ᄉ": null,
 		"ᄊ": ["s͈", "ɕ͈", "s͈", "s͈"],
 		"ᄏ": ["kʰ", "c͡çʰ", "k͡xʰ", "kʰ"],
 		"ᄒ": ["ɦ", "ʝ", "ɣ", "βʷ"]
-	}
+	};
 	
 	var initialLead = {
 		"ᄀ": ["k", "g̊"],
@@ -35,19 +35,19 @@
 		"ᄌ": ["t͡ɕ", "d͡͏̥ʑ"]
 	};
 	
-	var initialhAllophone = ["h", "ç", "x", "ɸʷ"];
+	var initialhAllophone = null;
 
 	var vowel = {
-		"ᅡ": ["ɐ", "ɐ", 0],
+		"ᅡ": null,
 		"ᅢ": ["ɛ̝", "ɛ", 0],
-		"ᅣ": ["jɐ", "jɐ", 1],
+		"ᅣ": null,
 		"ᅤ": ["jɛ̝", "jɛ", 1],
 		"ᅥ": ["ʌ̽", "ʌ", 0],
 		"ᅦ": ["e̞", "e", 0],
 		"ᅧ": ["jʌ̽", "jʌ", 1],
 		"ᅨ": ["je̞", "je", 1],
 		"ᅩ": ["o̞", "o", 3],
-		"ᅪ": ["wɐ", "wɐ", 3],
+		"ᅪ": null,
 		"ᅫ": ["wɛ̝", "wɛ", 3],
 		"ᅬ": ["we̞", "we", 3],
 		"ᅭ": ["jo̞", "jo", 1],
@@ -59,7 +59,7 @@
 		"ᅳ": ["ɯ̽", "ɯ", 2],
 		"ᅴ": ["ɰ̈i", "ɰi", 2],
 		"ᅵ": ["i", "i", 1]
-	}
+	};
 	
 	var trail = {
 		"ᆨ": "ᆨ",
@@ -78,7 +78,7 @@
 		"ᇀ": "ᆮ",
 		"ᇁ": "ᆸ",
 		"ᇂ": "ᆮ"
-	}
+	};
 	
 	var trailType = {
 		"ᆷ": "m",
@@ -88,7 +88,7 @@
 		"ᆮ": "t̚",
 		"ᆨ": "k̚",
 		"ᆯ": "l"
-	}
+	};
 	
 	var trailToLead = {
 		"ᆨ": "ᄀ",
@@ -107,7 +107,7 @@
 		"ᇀ": "ᄐ",
 		"ᇁ": "ᄑ",
 		"ᇂ": "ᄋ"
-	}
+	};
 	
 	var convertTrailBefore = {
 		"ᆪ": "ᆨ",
@@ -148,14 +148,21 @@
 		"ᆴ": true,
 		"ᆵ": false,
 		"ᆶ": true,
-		"ᆹ": true,
-	}
+		"ᆹ": true
+	};
 	
 	function HangulToIPA(hangul) {
 		
 		var output = [];
 		
 		hangul.replace(/[가-힣]+/g, function(syllables) {
+			
+			leadAllophone["ᄉ"] = HangulToIPA.aspiratedS ? ["sʰ", "ɕʰ", "sʰ", "sʰ"] : ["s", "ɕ", "s", "s"];
+			initialhAllophone = HangulToIPA.useVoicelessDiacritics && HangulToIPA.useVoicelessDiacriticsForH ? ["ɦ̥", "ʝ̊", "ɣ̊", "β̥ʷ"] : ["h", "ç", "x", "ɸʷ"];
+			
+			vowel["ᅡ"] = HangulToIPA.fullyOpenA ? ["ä", "a", 0] : ["ɐ", "ɐ", 0];
+			vowel["ᅣ"] = HangulToIPA.fullyOpenA ? ["jä", "ja", 1] : ["jɐ", "jɐ", 1];
+			vowel["ᅪ"] = HangulToIPA.fullyOpenA ? ["wä", "wa", 3] : ["wɐ", "wɐ", 3];
 			
 			syllables = syllables.split("").map(function(input) {
 				input = input.charCodeAt(0) - 44032;
@@ -205,7 +212,7 @@
 								 if (isPalatal && prev.trail == "ᆮ") {curr.lead = "ᄎ"; moveCluster();}
 							// aspiration
 							else if (prev.trail == "ᆨ") {curr.lead = "ᄏ"; moveCluster();}
-							else if (prev.trail == "ᆮ" || prev.trail == "ᆺ" || prev.trail == "ᆻ") {curr.lead = "ᄐ"; moveCluster();}
+							else if (prev.trail == "ᇂ" || prev.trail == "ᆮ" || prev.trail == "ᆺ" || prev.trail == "ᆻ") {curr.lead = "ᄐ"; moveCluster();}
 							else if (prev.trail == "ᆸ") {curr.lead = "ᄑ"; moveCluster();}
 							else if (prev.trail == "ᆽ") {curr.lead = "ᄎ"; moveCluster();}
 							else if (HangulToIPA.hLenition) {
@@ -256,7 +263,7 @@
 								 if (isPalatal && prev.trail == "ᆮ") {curr.lead = "ᄎ"; delete prev.trail;}
 							// aspiration
 							else if (prev.trail == "ᆨ") {curr.lead = "ᄏ"; delete prev.trail;}
-							else if (prev.trail == "ᆮ" || prev.trail == "ᆺ" || prev.trail == "ᆻ") {curr.lead = "ᄐ"; delete prev.trail;}
+							else if (prev.trail == "ᇂ" || prev.trail == "ᆮ" || prev.trail == "ᆺ" || prev.trail == "ᆻ") {curr.lead = "ᄐ"; delete prev.trail;}
 							else if (prev.trail == "ᆸ") {curr.lead = "ᄑ"; delete prev.trail;}
 							else if (prev.trail == "ᆽ") {curr.lead = "ᄎ"; delete prev.trail;}
 							else if (HangulToIPA.hLenition) {
@@ -317,17 +324,16 @@
 			output.push(syllables.map(function(item, index) {
 				return (
 					(
-						!index &&
-						(
+						!index && (
 							item.lead == "ᄒ" && initialhAllophone[vowel[item.vowel][2]] ||
 							initialLead[item.lead] &&
 							initialLead[item.lead][+HangulToIPA.useVoicelessDiacritics]
 						) ||
 						leadAllophone[item.lead] &&
-						leadAllophone[item.lead][vowel[item.vowel][2]] ||
+						leadAllophone[item.lead][+("ᄉᄊ".indexOf(item.lead) != -1 && vowel[item.vowel][0].indexOf("i") != -1) || vowel[item.vowel][2]] ||
 						lead[item.lead]
 					) + vowel[item.vowel][+HangulToIPA.omitVowelDiacritics] + (trailType[item.trail] || "")
-				).replace("ʷw", "ʷ");
+				).replace("ʷw", "ʷ").replace(/(ʝ̊?|çʰ?)j/, "$1");
 			}).join("<span>.</span><wbr>"));
 			
 		});
@@ -336,13 +342,16 @@
 		
 	}
 	
-	HangulToIPA.neolbTrailAsB			= false;
-	HangulToIPA.ryeVowelAsE				= true;
-	HangulToIPA.hLenition				= true;
-	HangulToIPA.nInsertion				= false;
-	HangulToIPA.ngNoSandhi				= false;
-	HangulToIPA.useVoicelessDiacritics	= false;
-	HangulToIPA.omitVowelDiacritics		= false;
+	HangulToIPA.neolbTrailAsB					= false;
+	HangulToIPA.ryeVowelAsE						= true;
+	HangulToIPA.hLenition						= true;
+	HangulToIPA.nInsertion						= false;
+	HangulToIPA.ngNoSandhi						= true;
+	HangulToIPA.useVoicelessDiacritics			= false;
+	HangulToIPA.	useVoicelessDiacriticsForH	= false;
+	HangulToIPA.fullyOpenA						= false;
+	HangulToIPA.omitVowelDiacritics				= false;
+	HangulToIPA.aspiratedS						= false;
 	
 	return HangulToIPA;
 	
