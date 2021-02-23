@@ -341,7 +341,7 @@
 			
 			return "<span>" + syllables.map(function(item) {
 				return lead[item.lead][vowel[item.vowel][0]] + vowel[item.vowel][1] + (trailType[item.trail] || "");
-			}).join("").replace(/イャ/g, "ヤ").replace(/イュ/g, "ユ").replace(/イョ/g, "ヨ").replace(/ウ[ァヮ]/g, "ワ").replace(/ウ(<b>͍<\/b>)?𛅤/g,　"ヰ$1").replace(/ウ𛅥/g,　"ヱ").replace(/ウ𛅦/g,　"ヲ").replace(/スィ/g, "シュィ").replace(/(ト|ド)ゥ([ァヮェィ])/g, HangulToKana.simplifyTwDwPlusFrontVowels ? "$1$2" : "$&").replace(/(ッ(<b>͍<\/b>)?)ッ/g, "$1").replace(/(ㇷ゚|ㇳ|ㇰ|<sub>[プトク]<\/sub>)ッ/g, HangulToKana.removeRepeatFortis ? "$1" : "$&") + "</span>";
+			}).join("").replace(/イャ/g, "ヤ").replace(/イュ/g, "ユ").replace(/イョ/g, "ヨ").replace(/ウ[ァヮ]/g, "ワ").replace(/ウ(<b>͍<\/b>)?𛅤/g,　"ヰ$1").replace(/ウ𛅥/g,　"ヱ").replace(/ウ𛅦/g,　"ヲ").replace(/スィ/g, "シュィ").replace(/(ト|ド)ゥ([ァヮェィ])/g, HangulToKana.simplifyAlveolarStopsWithGlide ? "$1$2" : "$&").replace(/(テ|デ)ィ([ャュョ])/g, HangulToKana.simplifyAlveolarStopsWithGlide ? "$1$2" : "$&").replace(/(ッ(<b>͍<\/b>)?)ッ/g, "$1").replace(/(ㇷ゚|ㇳ|ㇰ|<sub>[プトク]<\/sub>)ッ/g, HangulToKana.removeRepeatFortis ? "$1" : "$&") + "</span>";
 			
 		}).replace(/ /g, "　").replace(/\./g, "<i>。</i>").replace(/,/g, "<i>、</i>").replace(/\?/g, "<i>？</i>").replace(/!/g, "<i>！</i>").replace(/:/g, "<i>：</i>").replace(/;/g, "<i>；</i>").replace(/\(/g, "<i>（</i>").replace(/\)/g, "<i>）</i>").replace(/~/g, "<i>～</i>");
 	}
@@ -366,7 +366,7 @@
 	HangulToKana.removeRepeatFortis				= true;
 	HangulToKana.useExtendedKana				= true;
 	HangulToKana.useDyaForJa					= false;
-	HangulToKana.simplifyTwDwPlusFrontVowels	= true;
+	HangulToKana.simplifyAlveolarStopsWithGlide	= true;
 	
 	return HangulToKana;
 	
