@@ -118,7 +118,7 @@
 					var prev = syllables[i - 1], isPalatal = curr.vowel == "ᅵ" || curr.vowel == "ᅧ";
 					
 					// EXCEPT INITIAL
-					if (currNull) curr.vowel = curr.vowel.replace("ᅴ", "ᅦ");
+					if (currNull) curr.vowel = curr.vowel.replace("ᅴ", i == syllables.length - 1 ? "ᅦ" : "ᅵ");
 					
 					if (prev.trail) {
 						
