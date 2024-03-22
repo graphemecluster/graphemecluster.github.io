@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-145862581-1"></script>
+<script>
+if (typeof dataLayer == "undefined") dataLayer = [];
+function gtag() {dataLayer.push(arguments);}
+gtag("js", new Date());
+gtag("config", "UA-145862581-1");
+</script>
+<meta charset="UTF-8" />
+<title>Cantonese to Hangul Converter 粵語拼音諺文轉換器</title>
+<link rel="stylesheet" href="converters.css" />
+<script src="cantonese_to_hangul_converter.js"></script>
+</head>
+<body>
+<div id="container">
+	<h1>Cantonese to Hangul Converter 粵語拼音諺文轉換器</h1>
+	<div id="options">
+		<h2 id="options-title">Options 選項</h2>
+		<div><input type="checkbox" id="jAsZ" /><label for="jAsZ">jAsZ</label></div>
+		<div><input type="checkbox" id="replacementMode" checked /><label for="replacementMode">replacementMode</label></div>
+		<div><input type="checkbox" id="withTone" /><label for="withTone">withTone</label></div>
+		<div><input type="checkbox" id="finalEuAsOe" /><label for="finalEuAsOe">finalEuAsOe</label></div>
+		<div><input type="checkbox" id="distinguishNg" checked /><label for="distinguishNg">distinguishNg</label></div>
+		<div><input type="checkbox" id="distinguishLongVowel" checked /><label for="distinguishLongVowel">distinguishLongVowel</label>
+			<div class="true-only"><input type="checkbox" id="distinguishA" /><label for="distinguishA">distinguishA</label></div>
+			<div class="true-only"><input type="checkbox" id="distinguishOet" /><label for="distinguishOet">distinguishOet</label></div>
+		</div>
+	</div>
+	<div id="main">
+		<h2 id="origin-title">Cantonese 粵語拼音</h2>
+		<textarea id="origin" spellcheck="false"></textarea>
+		<h2 id="target-title">Hangul 諺文</h2>
+		<div id="target"></div>
+	</div>
+</div>
+<script>var Converter = CantoneseToHangul;</script>
+<script src="converters.js"></script>
+</body>
+</html>

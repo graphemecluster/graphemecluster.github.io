@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-145862581-1"></script>
+<script>
+if (typeof dataLayer == "undefined") dataLayer = [];
+function gtag() {dataLayer.push(arguments);}
+gtag("js", new Date());
+gtag("config", "UA-145862581-1");
+</script>
+<meta charset="UTF-8" />
+<title>Hangul to Kana Converter ハングル→カタカナ変換</title>
+<link rel="stylesheet" href="converters.css" />
+<script src="hangul_to_kana_converter.js"></script>
+</head>
+<body>
+<div id="container">
+	<h1>Hangul to Kana Converter ハングル→カタカナ変換</h1>
+	<div id="options">
+		<h2 id="options-title">Options オプション</h2>
+		<div><input type="checkbox" id="useSmallWa" checked /><label for="useSmallWa">useSmallWa</label>
+			<div class="true-only"><input type="checkbox" id="useNormalAndSmallWiWeWo" compatibility /><label for="useNormalAndSmallWiWeWo">useNormalAndSmallWiWeWo</label></div>
+		</div>
+		<div><input type="checkbox" id="distinguishU" /><label for="distinguishU">distinguishU</label></div>
+		<div><input type="checkbox" id="distinguishO" /><label for="distinguishO">distinguishO</label></div>
+		<div><input type="checkbox" id="distinguishK" /><label for="distinguishK">distinguishK</label>
+			<div class="true-only"><input type="checkbox" id="useDiacriticForK" /><label for="useDiacriticForK">useDiacriticForK</label>
+				<div class="false-only"><input type="checkbox" id="distinguishFortisWithT" /><label for="distinguishFortisWithT">distinguishFortisWithT</label></div>
+			</div>
+		</div>
+		<div><input type="checkbox" id="distinguishN" /><label for="distinguishN">distinguishN</label>
+			<div class="true-only"><input type="checkbox" id="useNuForN" /><label for="useNuForN">useNuForN</label>
+				<div class="false-only"><input type="checkbox" id="useDiacriticForN" checked /><label for="useDiacriticForN">useDiacriticForN</label>
+					<div class="false-only"><input type="checkbox" id="useExtendedSmallN" compatibility /><label for="useExtendedSmallN">useExtendedSmallN</label></div>
+				</div>
+			</div>
+		</div>
+		<div><input type="checkbox" id="neolbTrailAsB" /><label for="neolbTrailAsB">neolbTrailAsB</label></div>
+		<div><input type="checkbox" id="ryeVowelAsE" checked /><label for="ryeVowelAsE">ryeVowelAsE</label></div>
+		<div><input type="checkbox" id="hLenition" checked /><label for="hLenition">hLenition</label></div>
+		<div><input type="checkbox" id="nInsertion" /><label for="nInsertion">nInsertion</label></div>
+		<div><input type="checkbox" id="ngNoSandhi" checked /><label for="ngNoSandhi">ngNoSandhi</label>
+			<div class="false-only"><input type="checkbox" id="autoLinkBidakuon" /><label for="autoLinkBidakuon">autoLinkBidakuon</label></div>
+		</div>
+		<div><input type="checkbox" id="removeRepeatFortis" checked /><label for="removeRepeatFortis">removeRepeatFortis</label></div>
+		<div><input type="checkbox" id="useExtendedKana" checked /><label for="useExtendedKana">useExtendedKana</label></div>
+		<div><input type="checkbox" id="useDyaForJa" /><label for="useDyaForJa">useDyaForJa</label></div>
+		<div><input type="checkbox" id="simplifyAlveolarStopsWithGlide" checked /><label for="simplifyAlveolarStopsWithGlide">simplifyAlveolarStopsWithGlide</label></div>
+	</div>
+	<div id="main">
+		<h2 id="origin-title">Hangul ハングル</h2>
+		<textarea id="origin" spellcheck="false"></textarea>
+		<h2 id="target-title">Kana カタカナ</h2>
+		<div id="target"></div>
+	</div>
+</div>
+<script>var Converter = HangulToKana;</script>
+<script src="converters.js"></script>
+</body>
+</html>

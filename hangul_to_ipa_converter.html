@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-145862581-1"></script>
+<script>
+if (typeof dataLayer == "undefined") dataLayer = [];
+function gtag() {dataLayer.push(arguments);}
+gtag("js", new Date());
+gtag("config", "UA-145862581-1");
+</script>
+<meta charset="UTF-8" />
+<title>Hangul to IPA Converter</title>
+<link rel="stylesheet" href="converters.css" />
+<script src="hangul_to_ipa_converter.js"></script>
+<style>
+#target {
+	font-family: "微軟正黑體", "Microsoft JhengHei", "微软雅黑", "Microsoft YaHei", "Arial", "HelveticaNeue-Light", "Helvetica Neue Light", "HelveticaNeue", "Helvetica Neue", "Helvetica", sans-serif;
+	line-height: 140%;
+	color: black;
+	font-weight: 100;
+}
+#target span {
+	color: silver;
+	padding: 0 3px;
+}
+#target s {
+	text-decoration: none;
+	color: #e2e2e2;
+	padding: 0 8px;
+	position: relative;
+	top: -3px;
+}
+</style>
+</head>
+<body>
+<div id="container">
+	<h1>Hangul to IPA Converter</h1>
+	<div id="options">
+		<h2 id="options-title">Options</h2>
+		<div><input type="checkbox" id="neolbTrailAsB" /><label for="neolbTrailAsB">neolbTrailAsB</label></div>
+		<div><input type="checkbox" id="ryeVowelAsE" checked /><label for="ryeVowelAsE">ryeVowelAsE</label></div>
+		<div><input type="checkbox" id="hLenition" checked /><label for="hLenition">hLenition</label></div>
+		<div><input type="checkbox" id="nInsertion" /><label for="nInsertion">nInsertion</label></div>
+		<div><input type="checkbox" id="ngNoSandhi" checked /><label for="ngNoSandhi">ngNoSandhi</label></div>
+		<div><input type="checkbox" id="useVoicelessDiacritics" /><label for="useVoicelessDiacritics">useVoicelessDiacritics</label>
+			<div class="true-only"><input type="checkbox" id="useVoicelessDiacriticsForH" /><label for="useVoicelessDiacriticsForH">useVoicelessDiacriticsForH</label></div>
+		</div>
+		<div><input type="checkbox" id="fullyOpenA" /><label for="fullyOpenA">fullyOpenA</label></div>
+		<div><input type="checkbox" id="omitVowelDiacritics" /><label for="omitVowelDiacritics">omitVowelDiacritics</label></div>
+		<div><input type="checkbox" id="aspiratedS" /><label for="aspiratedS">aspiratedS</label></div>
+	</div>
+	<div id="main">
+		<h2 id="origin-title">Hangul</h2>
+		<textarea id="origin" spellcheck="false"></textarea>
+		<h2 id="target-title">IPA</h2>
+		<div id="target"></div>
+	</div>
+</div>
+<script>var Converter = HangulToIPA;</script>
+<script src="converters.js"></script>
+</body>
+</html>
