@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-145862581-1"></script>
+<script>
+if (typeof dataLayer == "undefined") dataLayer = [];
+function gtag() {dataLayer.push(arguments);}
+gtag("js", new Date());
+gtag("config", "UA-145862581-1");
+</script>
+<meta charset="UTF-8" />
+<title>Cantonese to Kana Converter 広東語拼音→カタカナ変換</title>
+<link rel="stylesheet" href="converters_new.css" />
+<script src="cantonese_to_kana_converter.js"></script>
+</head>
+<body>
+<div id="container">
+	<h1>Cantonese to Kana Converter 広東語拼音→カタカナ変換</h1>
+	<p>Draft — Not to be spread widely　これは下書きです。拡散しないでください。</p>
+	<form id="options" name="options">
+		<h2 id="options-title">Options オプション</h2>
+		<div><input type="checkbox" id="jAsZ" /><label for="jAsZ">Treat <code>j</code> as <code>z</code>　<code>j</code> を <code>z</code> として扱う</label></div>
+		<div><input type="checkbox" id="convertOetToEot" /><label for="convertOetToEot">Convert <code>oet</code> to <code>eot</code>　<code>oet</code> を <code>eot</code> に変換する</label></div>
+		<div><input type="checkbox" id="voicedKanaAllowed" checked /><label for="voicedKanaAllowed">Allow Voiced Kana　濁点付きカナを許容する</label></div>
+		<div>
+			<div id="separator-title">Separator 区切り記号</div>
+			<div><input type="radio" id="separator-none" name="separator" value="" /><label for="separator-none">None なし</label></div>
+			<div><input type="radio" id="separator-space" name="separator" value=" " checked /><label for="separator-space">Space スペース</label></div>
+			<div><input type="radio" id="separator-fullwidth-dot" name="separator" value="・" /><label for="separator-fullwidth-dot">Fullwidth Dot 全角中黒</label></div>
+			<div><input type="radio" id="separator-halfwidth-dot" name="separator" value="･" /><label for="separator-halfwidth-dot">Halfwidth Dot 半角中黒</label></div>
+			<div><input type="radio" id="separator-other" name="separator" value="" /><label for="separator-other">Other その他：
+				<input type="text" id="separator-other-input" value="" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+			</label></div>
+		</div>
+		<div><input type="checkbox" id="withTone" /><label for="withTone">Output Tone 声調を出力する</label>
+			<div class="true-only"><input type="checkbox" id="useSLWongTone" /><label for="useSLWongTone">Use S. L. Wong Tone Mark 黃錫凌声調記号を使う</label>
+				<div class="false-only"><input type="checkbox" id="useSuperscriptTone" checked /><label for="useSuperscriptTone">Use Superscript Characters 上付き文字を使う</label></div>
+			</div>
+		</div>
+	</form>
+	<div id="main">
+		<h2 id="origin-title">Cantonese 広東語拼音</h2>
+		<textarea lang="zh-HK" id="origin" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+		<h2 id="target-title">Kana カタカナ</h2>
+		<div id="target"></div>
+	</div>
+</div>
+<script>var Converter = CantoneseToKana;</script>
+<script src="converters_new.js"></script>
+</body>
+</html>
