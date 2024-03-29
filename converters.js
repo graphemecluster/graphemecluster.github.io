@@ -14,14 +14,14 @@ origin.oninput = update;
 origin.onscroll = function() {
 	if (target.isScrolling) target.isScrolling = false;
 	else {
-		target.scrollTop = this.scrollTop / this.scrollHeight * target.scrollHeight;
+		target.scrollTop = this.scrollTop / (this.scrollHeight - this.clientHeight) * (target.scrollHeight - target.clientHeight);
 		origin.isScrolling = true;
 	}
 };
 target.onscroll = function() {
 	if (origin.isScrolling) origin.isScrolling = false;
 	else {
-		origin.scrollTop = this.scrollTop / this.scrollHeight * origin.scrollHeight;
+		origin.scrollTop = this.scrollTop / (this.scrollHeight - this.clientHeight) * (origin.scrollHeight - origin.clientHeight);
 		target.isScrolling = true;
 	}
 };
