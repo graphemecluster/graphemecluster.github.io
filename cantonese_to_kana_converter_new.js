@@ -33,6 +33,7 @@
 	const aspiratedSmallKana = ["ㇵ", "ㇶ", "ㇷ", "ㇸ", "ㇹ"];
 
 	function sup(content) {
+		if (typeof document === "undefined") return content;
 		const sup = document.createElement("sup");
 		sup.appendChild(document.createTextNode(content));
 		return sup;
