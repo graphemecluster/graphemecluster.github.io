@@ -97,7 +97,6 @@
 	CantoneseToKana.convertFinalAToAa			= false;
 	CantoneseToKana.convertOetToEot				= false;
 	CantoneseToKana.voicedKanaAllowed			= true;
-	CantoneseToKana.separator					= " ";
 	CantoneseToKana.withTone					= false;
 	CantoneseToKana.	useSLWongTone			= false;
 	CantoneseToKana.		useSuperscriptTone	= true;
