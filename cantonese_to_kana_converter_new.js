@@ -72,7 +72,8 @@
 			else if (nucleusI) { nucleusActual = nucleusI; terminal = "i"; }
 			else terminal = toAspirated[terminal] || terminal;
 
-				 if (nucleusActual == "i" && (terminal == "ng" || terminal == "k") || nucleusActual == "e" && terminal == "i") nucleusActual = "ee";
+				 if (nucleusActual == "a" && !terminal && CantoneseToKana.convertFinalAToAa) nucleusActual = "aa";
+			else if (nucleusActual == "i" && (terminal == "ng" || terminal == "k") || nucleusActual == "e" && terminal == "i") nucleusActual = "ee";
 			else if (nucleusActual == "ee" && (terminal != "i" && terminal != "ng" && terminal != "k")) nucleusActual = "i";
 			else if (nucleusActual == "u" && (terminal == "m" || terminal == "ng" || terminal == "p" || terminal == "k") || nucleusActual == "o" && terminal == "u") nucleusActual = "oo";
 			else if (nucleusActual == "oo" && (terminal != "u" && terminal != "m" && terminal != "ng" && terminal != "p" && terminal != "k")) nucleusActual = "u";
@@ -93,6 +94,7 @@
 	}
 
 	CantoneseToKana.jAsZ						= false;
+	CantoneseToKana.convertFinalAToAa			= false;
 	CantoneseToKana.convertOetToEot				= false;
 	CantoneseToKana.voicedKanaAllowed			= true;
 	CantoneseToKana.separator					= " ";
