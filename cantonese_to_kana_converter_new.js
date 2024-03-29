@@ -1,7 +1,7 @@
 (function(main, global) {
 	(typeof exports == "object" ? exports : global).CantoneseToKana = main();
 })(function() {
-	const regex = /(?:(ng|[kgqx](?:w|u(?=a|o(?!e|u)))?|dz|ts|[zcs]h?|[bpmfdtnlhjyw])?(?:(aa?)o|(aa?|ee|oo?|i)u|(aa?|e[eou]?|o[eo]?|ue?)(?:i|y(?![aeiou]|n(?![aeiouyg])|t(?![aeiouy])))|(aa?|e[eou]?|o[eo]?|ue?|yu?|i)((?:ng?|[mptkbdg])(?![aeiou]|y(?![aeio])))?)|(h)?(m|ng))([1-9²³¹⁴-⁹₁-₉])?/gi;
+	const regex = /(?:(ng|[kgqx](?:w|u(?=a|o(?!e|u)))?|dz|ts|[zcs]h?|[bpmfdtnlhjyw])?(?:(aa?)o|(aa?|ee|oo?|i)u|(aa?|e[eou]?|o[eo]?|ue?)(?:i|y(?![aeiou]|n(?![aeiouyg])|t(?![aeiouy])))|(aa?|e[eou]?|o[eo]?|ue?|yu?|i)((?:ng?|[mptkbd])(?![aeiou]|y(?![aeio]))|g(?![aeiou]|y(?![aeio])|w[aeiouy]))?)|(h)?(m|ng))([1-9²³¹⁴-⁹₁-₉])?/gi;
 
 	const baseKana = ["ア", "イ", "ウ", "エ", "オ"];
 	const onset = {
@@ -72,7 +72,8 @@
 			else if (nucleusI) { nucleusActual = nucleusI; terminal = "i"; }
 			else terminal = toAspirated[terminal] || terminal;
 
-				 if (nucleusActual == "i" && (terminal == "ng" || terminal == "k") || nucleusActual == "e" && terminal == "i") nucleusActual = "ee";
+				 if (nucleusActual == "a" && !terminal && CantoneseToKana.convertFinalAToAa) nucleusActual = "aa";
+			else if (nucleusActual == "i" && (terminal == "ng" || terminal == "k") || nucleusActual == "e" && terminal == "i") nucleusActual = "ee";
 			else if (nucleusActual == "ee" && (terminal != "i" && terminal != "ng" && terminal != "k")) nucleusActual = "i";
 			else if (nucleusActual == "u" && (terminal == "m" || terminal == "ng" || terminal == "p" || terminal == "k") || nucleusActual == "o" && terminal == "u") nucleusActual = "oo";
 			else if (nucleusActual == "oo" && (terminal != "u" && terminal != "m" && terminal != "ng" && terminal != "p" && terminal != "k")) nucleusActual = "u";
@@ -93,6 +94,7 @@
 	}
 
 	CantoneseToKana.jAsZ						= false;
+	CantoneseToKana.convertFinalAToAa			= false;
 	CantoneseToKana.convertOetToEot				= false;
 	CantoneseToKana.voicedKanaAllowed			= true;
 	CantoneseToKana.separator					= " ";
