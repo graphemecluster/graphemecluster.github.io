@@ -1,3 +1,4 @@
+const commonOptions = { separator: " " };
 var origin = document.getElementById("origin");
 var target = document.getElementById("target");
 function append(parent, content) {
@@ -19,7 +20,7 @@ function segment(regex, callback) {
 		while (match = regex.exec(string)) {
 			const stringBefore = string.slice(prevIndex, match.index);
 			if (prevIndex && /^(\s*|['ʹʼˈ’′＇])$/.test(stringBefore)) {
-				if (Converter.separator) nodes.push(element("separator", Converter.separator));
+				if (commonOptions.separator) nodes.push(element("separator", commonOptions.separator));
 			}
 			else if (stringBefore) nodes.push(element("raw", stringBefore));
 			if (regex.ignoreCase) for (var i = 0; i < match.length; i++) match[i] = match[i] && match[i].toLowerCase();
@@ -38,7 +39,7 @@ function segment(regex, callback) {
 }
 function update() {
 	history.replaceState(null, document.title, location.pathname + (origin.value && "#" + encodeURIComponent(origin.value)));
-	localStorage.setItem(Converter.name, JSON.stringify(Object.assign({ input: origin.value }, Converter)));
+	localStorage.setItem(Converter.name, JSON.stringify(Object.assign({ input: origin.value }, commonOptions, Converter)));
 	target.textContent = "";
 	for (var node of origin.value.split(/\r\n?|[\n\u2028\u2029]/).map(function(line) {
 		const div = document.createElement("div");
@@ -54,18 +55,26 @@ function update() {
 	Converter[element.id] = element.checked;
 });
 [].forEach.call(document.querySelectorAll("input[type=radio]"), function(element) {
-	element.onclick = function() {
+	if (element.name in commonOptions) {
+		element.onclick = function() {
+			commonOptions[element.name] = document.forms.options[element.name].value;
+			update();
+		};
+		commonOptions[element.name] = document.forms.options[element.name].value;
+	} else {
+		element.onclick = function() {
+			Converter[element.name] = document.forms.options[element.name].value;
+			update();
+		};
 		Converter[element.name] = document.forms.options[element.name].value;
-		update();
-	};
-	Converter[element.name] = document.forms.options[element.name].value;
+	}
 });
 var separatorOther = document.getElementById("separator-other");
 var separatorOther = document.getElementById("separator-other");
 var separatorOtherInput = document.getElementById("separator-other-input");
 if (separatorOther && separatorOtherInput) separatorOtherInput.oninput = function() {
 	separatorOther.checked = true;
-	Converter.separator = separatorOther.value = separatorOtherInput.value;
+	commonOptions.separator = separatorOther.value = separatorOtherInput.value;
 	update();
 };
 origin.oninput = update;
@@ -101,6 +110,8 @@ if (prevOptions) {
 			separatorOther.checked = true;
 			separatorOther.value = separatorOtherInput.value = options.separator;
 		}
+		commonOptions.separator = options.separator;
+		delete options.separator;
 	}
 	if ("input" in options) {
 		origin.value = options.input;
