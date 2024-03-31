@@ -26,11 +26,17 @@
 		j: ["ヤ", "イ", "ユ", "イェ", "ヨ"],
 	};
 	const nucleus = { aa: "アー", a: "ア", e: "エー", ee: "エ", o: "オー", oo: "オ", oe: "オェー", eo: "オェ", i: "イー", u: "ウー", yu: "ウュー" };
-	const coda = { i: "イ", u: "ウ", m: "ㇺ", n: "ㇴ", ng: "ン", p: "ㇷ゚", t: "ㇳ", k: "ㇰ" };
+	const coda = { i: "イ", u: "ウ", m: "ㇺ", n: "ㇴ", ng: "ン", p: "ㇷ゚", t: "ㇳ", k: "ㇰ", h: "ッ" };
 
-	const aspiratedOnset = { p: true, t: true, k: true, kw: true, c: true };
+	const aspiratedOnset = new Set(["p", "t", "k", "kw", "c"]);
 	const toAspirated = { b: "p", d: "t", g: "k", gw: "kw", z: "c" };
 	const aspiratedSmallKana = ["ㇵ", "ㇶ", "ㇷ", "ㇸ", "ㇹ"];
+
+	const homorganicConsonants = {
+		p: new Set(["b", "p", "m", "f"]),
+		t: new Set(["d", "t", "n", "l", "z", "c", "s"]),
+		k: new Set(["g", "k", "gw", "kw", "ng"]),
+	};
 
 	function sup(content) {
 		if (typeof document === "undefined") return content;
@@ -39,27 +45,10 @@
 		return sup;
 	}
 
-	function finalize(syllable, tone) {
-		if (!CantoneseToKana.withTone || !tone) return syllable;
-
-			 if ("1¹₁7⁷₇".indexOf(tone) != -1) tone = "1¹ˈ";
-		else if ("2²₂".indexOf(tone) != -1) tone = "2²ˊ";
-		else if ("3³₃8⁸₈".indexOf(tone) != -1) tone = "3³ˉ";
-		else if ("4⁴₄".indexOf(tone) != -1) tone = "4⁴ˌ";
-		else if ("5⁵₅".indexOf(tone) != -1) tone = "5⁵ˏ";
-		else if ("6⁶₆9⁹₉".indexOf(tone) != -1) tone = "6⁶ˍ";
-
-		return CantoneseToKana.useSLWongTone
-			? tone[2] + syllable
-			: CantoneseToKana.useSuperscriptTone
-				? syllable + tone[1]
-				: [syllable, sup(tone[0])];
-	}
-
-	function CantoneseToKana(segment) {
-		return segment(regex, function(match, initial, nucleusO, nucleusU, nucleusI, nucleusActual, terminal, aspirated, syllabicConsonant, tone) {
-
-			if (syllabicConsonant) return finalize((aspirated ? "ㇷ" : "") + "ン" + (syllabicConsonant == "m" ? "ㇺ" : "") + "ー", tone);
+	const prototype = {
+		regex,
+		transform(match, initial, nucleusO, nucleusU, nucleusI, nucleusActual, terminal, aspirated, syllabicConsonant, tone) {
+			if (syllabicConsonant) return [aspirated, "", syllabicConsonant, tone];
 
 				 if (initial == "gu" || initial == "xw" || initial == "xu") initial = "gw";
 			else if (initial == "ku" || initial == "qw" || initial == "qu") initial = "kw";
@@ -84,23 +73,56 @@
 			else if ((nucleusActual == "eo" || nucleusActual == "eu") && (terminal != "i" && terminal != "n" && terminal != "t")) nucleusActual = "oe";
 			else if (nucleusActual == "y" || nucleusActual == "ue") nucleusActual = "yu";
 
-			const index = baseKana.indexOf(nucleus[nucleusActual][0]);
-			return finalize((
-				(CantoneseToKana.voicedKanaAllowed || !aspiratedOnset[initial]
-					? (onset[!CantoneseToKana.voicedKanaAllowed && toAspirated[initial] || initial] || baseKana)[index]
-					: onset[initial][index].replace(/[ァィゥェォ]?$/, aspiratedSmallKana[index])
-				) + nucleus[nucleusActual].slice(1) + (nucleusActual == "eo" && terminal == "i" ? "ュ" : coda[terminal] || "")
-			).replace(/[ウユ]ュ/, "ユ"), tone);
-		});
-	}
+			return [initial, nucleusActual, terminal, tone];
+		},
+		pairwise(left, right) {
+			if (CantoneseToKana.convertHomorganicCodaToSmallTsu) {
+				const rule = homorganicConsonants[left[2]];
+				if (rule && rule.has(right[0])) left[2] = "h";
+			}
+			return [left, right];
+		},
+		construct(initial, nucleusActual, terminal, tone) {
+			let syllable;
+			if (nucleusActual) {
+				const index = baseKana.indexOf(nucleus[nucleusActual][0]);
+				syllable = (
+					(CantoneseToKana.voicedKanaAllowed || !aspiratedOnset.has(initial)
+						? (onset[!CantoneseToKana.voicedKanaAllowed && toAspirated[initial] || initial] || baseKana)[index]
+						: onset[initial][index].replace(/[ァィゥェォ]?$/, aspiratedSmallKana[index])
+					) + nucleus[nucleusActual].slice(1) + (nucleusActual == "eo" && terminal == "i" ? "ュ" : coda[terminal] || "")
+				).replace(/[ウユ]ュ/, "ユ");
+			}
+			else syllable = (initial ? "ㇷ" : "") + "ン" + (terminal == "m" ? "ㇺ" : "") + "ー";
+	
+			if (!CantoneseToKana.withTone || !tone) return syllable;
+	
+				 if ("1¹₁7⁷₇".indexOf(tone) != -1) tone = "1¹ˈ";
+			else if ("2²₂".indexOf(tone) != -1) tone = "2²ˊ";
+			else if ("3³₃8⁸₈".indexOf(tone) != -1) tone = "3³ˉ";
+			else if ("4⁴₄".indexOf(tone) != -1) tone = "4⁴ˌ";
+			else if ("5⁵₅".indexOf(tone) != -1) tone = "5⁵ˏ";
+			else if ("6⁶₆9⁹₉".indexOf(tone) != -1) tone = "6⁶ˍ";
+	
+			return CantoneseToKana.useSLWongTone
+				? tone[2] + syllable
+				: CantoneseToKana.useSuperscriptTone
+					? syllable + tone[1]
+					: [syllable, sup(tone[0])];
+		},
+	};
 
-	CantoneseToKana.jAsZ						= false;
-	CantoneseToKana.convertFinalAToAa			= false;
-	CantoneseToKana.convertOetToEot				= false;
-	CantoneseToKana.voicedKanaAllowed			= true;
-	CantoneseToKana.withTone					= false;
-	CantoneseToKana.	useSLWongTone			= false;
-	CantoneseToKana.		useSuperscriptTone	= true;
+	function CantoneseToKana() {}
+	Object.setPrototypeOf(CantoneseToKana.prototype, prototype);
+
+	CantoneseToKana.jAsZ							= false;
+	CantoneseToKana.convertFinalAToAa				= false;
+	CantoneseToKana.convertOetToEot					= false;
+	CantoneseToKana.voicedKanaAllowed				= true;
+	CantoneseToKana.convertHomorganicCodaToSmallTsu = false;
+	CantoneseToKana.withTone						= false;
+	CantoneseToKana.	useSLWongTone				= false;
+	CantoneseToKana.		useSuperscriptTone		= true;
 
 	return CantoneseToKana;
 }, this);

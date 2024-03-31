@@ -111,6 +111,10 @@ h2 {
 #options div {
 	margin-left: 30px;
 }
+#options .multiline {
+  display: flex;
+  align-items: baseline;
+}
 label {
 	cursor: pointer;
 	font-family: Cantarell, --font-cantarell, "Noto Sans CJK HK", "Noto Sans HK", --font-noto-sans-hk, -apple-system,
@@ -157,4 +161,21 @@ p {
 	font-size: 20px;
 	font-weight: bold;
 	color: red;
+}
+.simple-table {
+  border-collapse: collapse;
+  font-size: 18px;
+}
+.simple-table thead {
+  border-bottom: 1px solid darkgrey;
+}
+.simple-table tr {
+  vertical-align: baseline;
+}
+.simple-table tr * {
+  padding: 2px 8px;
+}
+.simple-table tr :first-child {
+  text-align: right;
+  border-right: 1px solid darkgrey;
 }
