@@ -12,38 +12,42 @@ function element(className, content) {
 	append(span, content);
 	return span;
 }
-function segment(regex, callback) {
-	return function(string) {
-		const nodes = [];
-		regex = new RegExp(regex);
-		let match, prevIndex = 0;
-		while (match = regex.exec(string)) {
-			const stringBefore = string.slice(prevIndex, match.index);
-			if (prevIndex && /^(\s*|['ʹʼˈ’′＇])$/.test(stringBefore)) {
-				if (commonOptions.separator) nodes.push(element("separator", commonOptions.separator));
-			}
-			else if (stringBefore) nodes.push(element("raw", stringBefore));
-			if (regex.ignoreCase) for (var i = 0; i < match.length; i++) match[i] = match[i] && match[i].toLowerCase();
-			match.push(match.index, match.input);
-			if (match.groups) {
-				if (regex.ignoreCase) for (var key in match.groups) match.groups[key] = match.groups[key] && match.groups[key].toLowerCase();
-				match.push(match.groups);
-			}
-			nodes.push(element("substituted", callback.apply(void 0, match)));
-			prevIndex = regex.lastIndex;
+function segment(converter, string) {
+	const nodes = [];
+	const regex = new RegExp(converter.regex);
+	let match, prevIndex = 0;
+	while (match = regex.exec(string)) {
+		if (regex.ignoreCase) for (var i = 0; i < match.length; i++) match[i] = match[i] && match[i].toLowerCase();
+		match.push(match.index, match.input);
+		if (match.groups) {
+			if (regex.ignoreCase) for (var key in match.groups) match.groups[key] = match.groups[key] && match.groups[key].toLowerCase();
+			match.push(match.groups);
 		}
-		const stringAfter = string.slice(prevIndex);
-		if (stringAfter) nodes.push(element("raw", stringAfter));
-		return nodes;
-	};
+		let result = converter.transform.apply(converter, match);
+		const stringBefore = string.slice(prevIndex, match.index);
+		if (prevIndex && /^(\s*|['ʹʼˈ’′＇])$/.test(stringBefore)) {
+			const pairwiseResult = converter.pairwise(nodes[nodes.length - 1][1], result);
+			nodes[nodes.length - 1][1] = pairwiseResult[0];
+			result = pairwiseResult[1];
+			if (commonOptions.separator) nodes.push(["separator", commonOptions.separator]);
+		}
+		else if (stringBefore) nodes.push(["raw", stringBefore]);
+		nodes.push(["substituted", result]);
+		prevIndex = regex.lastIndex;
+	}
+	const stringAfter = string.slice(prevIndex);
+	if (stringAfter) nodes.push(["raw", stringAfter]);
+	for (var args of nodes) if (args[0] === "substituted") args[1] = converter.construct.apply(converter, args[1]);
+	return nodes;
 }
 function update() {
 	history.replaceState(null, document.title, location.pathname + (origin.value && "#" + encodeURIComponent(origin.value)));
 	localStorage.setItem(Converter.name, JSON.stringify(Object.assign({ input: origin.value }, commonOptions, Converter)));
 	target.textContent = "";
+	const converter = new Converter();
 	for (var node of origin.value.split(/\r\n?|[\n\u2028\u2029]/).map(function(line) {
 		const div = document.createElement("div");
-		for (var node of Converter(segment)(line)) div.appendChild(node);
+		for (var args of segment(converter, line)) div.appendChild(element.apply(void 0, args));
 		return div;
 	})) target.appendChild(node);
 }
