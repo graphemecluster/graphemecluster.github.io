@@ -1,7 +1,7 @@
 (function(main, global) {
 	(typeof exports == "object" ? exports : global).CantoneseToKana = main();
 })(function() {
-	const regex = /(?:(ng|[kgqx](?:w|u(?=a|o(?!e|u)))?|dz|ts|[zcs]h?|[bpmfdtnlhjyw])?(?:(aa?)o|(aa?|ee|oo?|i)u|(aa?|e[eou]?|o[eo]?|ue?)(?:i|y(?![aeiou]|n(?![aeiouyg])|t(?![aeiouy])))|(aa?|e[eou]?|o[eo]?|ue?|yu?|i)((?:ng?|[mptkbd])(?![aeiou]|y(?![aeio]))|g(?![aeiou]|y(?![aeio])|w[aeiouy]))?)|(h)?(m|ng))([1-9²³¹⁴-⁹₁-₉])?/gi;
+	const regex = /(?:(ng|[kgqx](?:w|u(?=a|o(?!e|u)))?|dz|ts|[zcs]h?|y(?!y)|[bpmfdtnlhjw])?(?:(aa?)o|(aa?|ee|oo?|i)u|(aa?|e[eou]?|o[eo]?|ue?)(?:i|y(?![aeiou]|n(?![aeiouyg])|t(?![aeiouy])))|(aa?|e[eou]?|o[eo]?|ue?|yu?|i)((?:ng?|[mptkbd])(?![aeiou]|y(?![aeio]))|g(?![aeiou]|y(?![aeio])|w[aeiouy]))?)|(h)?(m|ng))([1-9²³¹⁴-⁹₁-₉])?/gi;
 
 	const baseKana = ["ア", "イ", "ウ", "エ", "オ"];
 	const onset = {
