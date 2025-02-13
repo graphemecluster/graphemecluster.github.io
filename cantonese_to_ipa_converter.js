@@ -36,19 +36,19 @@
 		u: "u-ː",
 		yu: "y-ː"
 	}
-
+	
 	var exception = {
 		ou: null,
 		oei: null,
 		oen: "ɵ-n",
 		oet: "ɵ-t̚",
 		ei: null,
-		ing: "ɪ-ŋ",
-		ik: "ɪ-k̚",
-		um: "ʊ-m",
-		ung: "ʊ-ŋ",
-		up: "ʊ-p̚",
-		uk: "ʊ-k̚"
+		ing: "e-ŋ",
+		ik: "e-k̚",
+		um: "o-m",
+		ung: "o-ŋ",
+		up: "o-p̚",
+		uk: "o-k̚"
 	}
 	
 	var trail = {
@@ -71,7 +71,7 @@
 	var toneClass = ["1¹₁7⁷₇", "2²₂", "3³₃8⁸₈", "4⁴₄", "5⁵₅", "6⁶₆9⁹₉"];
 	
 	var output;
-
+	
 	function finalize(terminal, tone, syllable) {
 		
 		if (!tone) return syllable.replace("-", "");
